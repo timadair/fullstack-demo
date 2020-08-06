@@ -7,15 +7,36 @@ export class Entries extends React.Component {
         super(props, context);
         this.state = {
             entries: [
-              'First Entry',
-              'Second Entry'
+              'Initial Entry',
             ],
         }
     }
 
+  componentDidMount() {
+    console.log('Beginning call for entries');
+    fetch("http://localhost:8080/entries/1")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log('Inside response processing');
+
+          this.setState({
+
+              entries: this.state.entries.concat(result.entries),
+            }
+          )
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
     render() {
         return <ol>
-            {this.state.entries.map(text => <li>{text}</li>)}
+            {this.state.entries.map(text =>
+              <li key={text}>{text}</li>)
+            }
         </ol>;
     }
 }

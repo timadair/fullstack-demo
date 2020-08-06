@@ -4,9 +4,7 @@ import com.timadair.serverdemo.repositories.EntryDao;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "Entry Controller", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,8 +17,10 @@ public class EntryController {
     this.entryDao = entryDao;
   }
 
+  @CrossOrigin
   @GetMapping(path = "/entries/{id}")
-  public String getEntry(@RequestParam int id) {
-    return entryDao.getById(id);
+  public String getEntry(@PathVariable int id) {
+    // TODO replace this, include entry ID.
+    return "{\"entries\": [\"" + entryDao.getById(id) + "\"]}";
   }
 }

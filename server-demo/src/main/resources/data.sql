@@ -4,4 +4,6 @@ CREATE TABLE entries (id INT AUTO_INCREMENT PRIMARY KEY,
 );
 
 INSERT INTO entries (entry_text) VALUES
-    ('Default Entry One');
+    ('Default Entry One'),
+    ('Default Entry Two'),
+    ('Default Entry Three');
