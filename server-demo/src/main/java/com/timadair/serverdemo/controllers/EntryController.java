@@ -40,4 +40,9 @@ public class EntryController {
     }
     return entryRepository.save(entry);
   }
+
+  @DeleteMapping(path = "/entries/{id}")
+  public void deleteEntry(@PathVariable long id) {
+    entryRepository.deleteById(id);
+  }
 }

@@ -3,12 +3,15 @@ import TextField from "@material-ui/core/TextField";
 import RemoveCircleTwoToneIcon from '@material-ui/icons/RemoveCircleTwoTone';
 import IconButton from "@material-ui/core/IconButton";
 
+const ENTRIES_URI = 'http://localhost:8080/entries/';
+
 export class Entries extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       entries: [
         {
@@ -22,7 +25,7 @@ export class Entries extends React.Component {
 
   componentDidMount() {
     console.log('Beginning call for entries');
-    fetch("http://localhost:8080/entries/")
+    fetch(ENTRIES_URI)
         .then(res => res.json())
         .then((result) => {
               console.log('Inside response processing:' + result);
@@ -59,12 +62,27 @@ export class Entries extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ entryText: newEntryText })
     };
-    fetch('http://localhost:8080/entries/', requestOptions)
+    fetch(ENTRIES_URI, requestOptions)
         .then(response => response.json())
         .then(data => this.setState({
               entries: this.state.entries.concat(data)
             }
         ));
+  }
+
+  deleteEntry(entryId) {
+    console.log("Attempting to delete " + entryId);
+    fetch(ENTRIES_URI + '/' + entryId, {method: 'DELETE'})
+        .then(response => {
+          this.setState({
+            entries: this.state.entries.filter((entry) => {
+              let b = entry.id !== +entryId;
+              console.log(entry + ", " + b);
+              return b;
+            })
+          })
+        });
+
   }
 
   handleChange(event) {
@@ -74,7 +92,7 @@ export class Entries extends React.Component {
   }
 
   handleClick(event) {
-    console.log("Attempting to delete " + event.currentTarget.parentElement.getAttribute('entry-id'))
+    this.deleteEntry(event.currentTarget.parentElement.getAttribute('entry-id'));
   }
 
   renderInputForm() {
