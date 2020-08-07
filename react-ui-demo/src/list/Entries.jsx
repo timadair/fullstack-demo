@@ -2,6 +2,7 @@ import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import RemoveCircleTwoToneIcon from '@material-ui/icons/RemoveCircleTwoTone';
 import IconButton from "@material-ui/core/IconButton";
+import './Entries.scss'
 
 const ENTRIES_URI = 'http://localhost:8080/entries/';
 
@@ -9,7 +10,7 @@ export class Entries extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
@@ -80,10 +81,14 @@ export class Entries extends React.Component {
 
   }
 
-  handleChange(event) {
+  handleInputChange(event) {
     this.setState({
       latestInputText: event.target.value
     })
+  }
+
+  handleFilterChange() {
+
   }
 
   handleClick(event) {
@@ -91,12 +96,16 @@ export class Entries extends React.Component {
   }
 
   renderInputForm() {
-    return <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+    return <form className="listControls" noValidate autoComplete="off" onSubmit={this.handleSubmit}>
       <TextField id="new-entry-inputs"
                  label="Add to your list"
                  variant="filled"
                  value={this.state.latestInputText}
-                 onChange={this.handleChange}/>
+                 onChange={this.handleInputChange}/>
+      <TextField id="new-entry-inputs"
+                 label="Filter your list"
+                 variant="filled"
+                 onChange={this.handleFilterChange}/>
     </form>
   }
 

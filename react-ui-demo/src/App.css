@@ -24,20 +24,6 @@
   color: white;
 }
 
-.listEntry {
-  display: flex;
-  align-items: center;
-}
-
-.entryText {
-
-}
-
-.deleteIcon {
-  margin-right: 4px;
-  color: #e21114;
-}
-
 .App-link {
   color: #61dafb;
 }

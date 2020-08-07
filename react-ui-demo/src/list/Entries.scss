@@ -1,0 +1,17 @@
+.listControls {
+  div {
+    margin: 5px;
+  }
+}
+
+.listEntry {
+  display: flex;
+  align-items: center;
+
+  .deleteIcon {
+    margin-right: 4px;
+    color: #e21114;
+  }
+
+}
+
