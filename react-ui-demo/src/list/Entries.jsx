@@ -96,17 +96,22 @@ export class Entries extends React.Component {
   }
 
   renderInputForm() {
-    return <form className="listControls" noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-      <TextField id="new-entry-inputs"
-                 label="Add to your list"
-                 variant="filled"
-                 value={this.state.latestInputText}
-                 onChange={this.handleInputChange}/>
-      <TextField id="new-entry-inputs"
-                 label="Filter your list"
-                 variant="filled"
-                 onChange={this.handleFilterChange}/>
-    </form>
+    return <div className="listControls">
+      <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+        <TextField id="new-entry-inputs"
+                   label="Add to your list"
+                   variant="filled"
+                   value={this.state.latestInputText}
+                   onChange={this.handleInputChange}/>
+      </form>
+      <form noValidate autoComplete="off" onSubmit={this.handleFilterSubmit}>
+        <TextField id="entry-filter"
+                   label="Filter your list"
+                   variant="filled"
+                   onChange={this.handleFilterChange}/>
+
+      </form>
+    </div>
   }
 
   renderList() {
