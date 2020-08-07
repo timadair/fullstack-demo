@@ -13,6 +13,7 @@ export class Entries extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
       entries: [
         {
@@ -87,8 +88,19 @@ export class Entries extends React.Component {
     })
   }
 
-  handleFilterChange() {
-
+  handleFilterChange(event) {
+    const queryString = event.target.value;
+    this.setState({
+      entries: this.state.entries.map(entry => {
+        entry["style"] = !entry.entryText.includes(queryString) ? { display: "none" } : undefined;
+        // if (entry.style && entry.style.display === "none") {
+        //   console.log("hiding " + entry.id);
+        // } else {
+        //   console.log("not hiding " + entry.id)
+        // }
+        return entry;
+      })
+    })
   }
 
   handleClick(event) {
@@ -104,12 +116,11 @@ export class Entries extends React.Component {
                    value={this.state.latestInputText}
                    onChange={this.handleInputChange}/>
       </form>
-      <form noValidate autoComplete="off" onSubmit={this.handleFilterSubmit}>
+      <form noValidate autoComplete="off" onSubmit={event => event.preventDefault()}>
         <TextField id="entry-filter"
                    label="Filter your list"
                    variant="filled"
                    onChange={this.handleFilterChange}/>
-
       </form>
     </div>
   }
@@ -123,7 +134,7 @@ export class Entries extends React.Component {
   }
 
   renderEntry(entry) {
-    return <li className="listEntry" key={entry.id} entry-id={entry.id}>
+    return <li className="listEntry" key={entry.id} entry-id={entry.id} style={entry.style}>
       <IconButton onClick={this.handleClick}>
         <RemoveCircleTwoToneIcon className="deleteIcon"/>
       </IconButton>
