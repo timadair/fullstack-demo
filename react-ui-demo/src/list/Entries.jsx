@@ -16,7 +16,7 @@ export class Entries extends React.Component {
       entries: [
         {
           id: -1,
-          entryText: 'Example Entry'
+          entryText: '[Example Entry]'
         },
       ],
       latestInputText: ""
@@ -24,14 +24,13 @@ export class Entries extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Beginning call for entries');
     fetch(ENTRIES_URI)
         .then(res => res.json())
         .then((result) => {
-              console.log('Inside response processing:' + result);
-              if (result) {
+              console.log('Populating initial list:' + result);
+              if (result && result.length > 0) {
                 this.setState({
-                  entries: this.state.entries.concat(result),
+                  entries: result
                 });
               }
             },
@@ -65,7 +64,7 @@ export class Entries extends React.Component {
     fetch(ENTRIES_URI, requestOptions)
         .then(response => response.json())
         .then(data => this.setState({
-              entries: this.state.entries.concat(data)
+              entries: this.state.entries.filter(entry => entry.id > 0).concat(data)
             }
         ));
   }
@@ -73,13 +72,9 @@ export class Entries extends React.Component {
   deleteEntry(entryId) {
     console.log("Attempting to delete " + entryId);
     fetch(ENTRIES_URI + '/' + entryId, {method: 'DELETE'})
-        .then(response => {
+        .then(() => {
           this.setState({
-            entries: this.state.entries.filter((entry) => {
-              let b = entry.id !== +entryId;
-              console.log(entry + ", " + b);
-              return b;
-            })
+            entries: this.state.entries.filter((entry) => entry.id !== +entryId)
           })
         });
 
@@ -98,7 +93,7 @@ export class Entries extends React.Component {
   renderInputForm() {
     return <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
       <TextField id="new-entry-inputs"
-                 label="New List Entries"
+                 label="Add to your list"
                  variant="filled"
                  value={this.state.latestInputText}
                  onChange={this.handleChange}/>
