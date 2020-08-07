@@ -1,5 +1,6 @@
 import * as React from "react";
 import TextField from "@material-ui/core/TextField";
+import RemoveCircleTwoToneIcon from '@material-ui/icons/RemoveCircleTwoTone';
 
 export class Entries extends React.Component {
 
@@ -82,12 +83,17 @@ export class Entries extends React.Component {
   }
 
   renderList() {
-    return <ol>
+    return <ul>
       {
-        this.state.entries.map(entry =>
-            <li key={entry.id}>{entry.entryText}</li>
-        )
+        this.state.entries.map(this.renderEntry)
       }
-    </ol>;
+    </ul>;
+  }
+
+  renderEntry(entry) {
+    return <li className="listEntry" key={entry.id}>
+      <RemoveCircleTwoToneIcon className="deleteIcon"></RemoveCircleTwoToneIcon>
+      <div className="entryText">{entry.entryText}</div>
+    </li>;
   }
 }
