@@ -28,6 +28,11 @@ public class EntryController {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No entity found for " + id));
   }
 
+  @GetMapping(path = "/entries/")
+  public Iterable<Entry> getEntries() {
+    return entryRepository.findAll();
+  }
+
   @PostMapping(path = "/entries/")
   public Entry createEntry(@RequestBody Entry entry) {
     if (entry.getId() != null) {

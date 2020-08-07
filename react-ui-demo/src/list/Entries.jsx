@@ -15,12 +15,9 @@ export class Entries extends React.Component {
 
   componentDidMount() {
     console.log('Beginning call for entries');
-    fetch("http://localhost:8080/entries/1")
-        .then(res => {
-          return res.ok ? res.json() : undefined;
-        })
-        .then(
-            (result) => {
+    fetch("http://localhost:8080/entries/")
+        .then(res => res.json())
+        .then((result) => {
               console.log('Inside response processing:' + result);
               if (result) {
                 this.setState({
