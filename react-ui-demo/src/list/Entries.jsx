@@ -1,6 +1,7 @@
 import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import RemoveCircleTwoToneIcon from '@material-ui/icons/RemoveCircleTwoTone';
+import IconButton from "@material-ui/core/IconButton";
 
 export class Entries extends React.Component {
 
@@ -72,6 +73,10 @@ export class Entries extends React.Component {
     })
   }
 
+  handleClick(event) {
+    console.log("Attempting to delete " + event.currentTarget.parentElement.getAttribute('entry-id'))
+  }
+
   renderInputForm() {
     return <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
       <TextField id="new-entry-inputs"
@@ -85,14 +90,16 @@ export class Entries extends React.Component {
   renderList() {
     return <ul>
       {
-        this.state.entries.map(this.renderEntry)
+        this.state.entries.map((entry) => this.renderEntry(entry))
       }
     </ul>;
   }
 
   renderEntry(entry) {
-    return <li className="listEntry" key={entry.id}>
-      <RemoveCircleTwoToneIcon className="deleteIcon"></RemoveCircleTwoToneIcon>
+    return <li className="listEntry" key={entry.id} entry-id={entry.id}>
+      <IconButton onClick={this.handleClick}>
+        <RemoveCircleTwoToneIcon className="deleteIcon"/>
+      </IconButton>
       <div className="entryText">{entry.entryText}</div>
     </li>;
   }
