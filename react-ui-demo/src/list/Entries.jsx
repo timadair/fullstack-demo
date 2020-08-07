@@ -45,10 +45,24 @@ export class Entries extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.latestInputText);
+    this.addNewEntry(this.state.latestInputText);
     this.setState({
       latestInputText: ""
     });
+  }
+
+  addNewEntry(newEntryText) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entryText: newEntryText })
+    };
+    fetch('http://localhost:8080/entries/', requestOptions)
+        .then(response => response.json())
+        .then(data => this.setState({
+              entries: this.state.entries.concat(data)
+            }
+        ));
   }
 
   handleChange(event) {
